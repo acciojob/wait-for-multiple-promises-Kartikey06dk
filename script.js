@@ -13,8 +13,8 @@ const promises = Array.from({ length: 3 }, (_, index) => {
   });
 });
 
-// Create a table element
-const table = document.createElement('table');
+// Get the table body element
+const tableBody = document.getElementById('output');
 
 // Add a row with "Loading..." text spanning 2 columns
 const loadingRow = document.createElement('tr');
@@ -22,16 +22,13 @@ const loadingCell = document.createElement('td');
 loadingCell.setAttribute('colspan', '2');
 loadingCell.textContent = 'Loading...';
 loadingRow.appendChild(loadingCell);
-table.appendChild(loadingRow);
-
-// Append the table to the document body
-document.body.appendChild(table);
+tableBody.appendChild(loadingRow);
 
 // Wait for all the promises to resolve
 Promise.all(promises)
   .then((results) => {
     // Remove the loading row
-    table.removeChild(loadingRow);
+    tableBody.removeChild(loadingRow);
 
     // Add rows with the resolved promises and their respective delays
     results.forEach((delay, index) => {
@@ -48,7 +45,7 @@ Promise.all(promises)
       secondColumn.textContent = delayInSeconds.toFixed(3); // Limit to 3 decimal places
       row.appendChild(secondColumn);
 
-      table.appendChild(row);
+      tableBody.appendChild(row);
     });
 
     // Calculate and add the total row
@@ -65,7 +62,7 @@ Promise.all(promises)
     totalSecondColumn.textContent = totalTimeTaken.toFixed(3); // Limit to 3 decimal places
     totalRow.appendChild(totalSecondColumn);
 
-    table.appendChild(totalRow);
+    tableBody.appendChild(totalRow);
   })
   .catch((error) => {
     console.error('An error occurred:', error);
